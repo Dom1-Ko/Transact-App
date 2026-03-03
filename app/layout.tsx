@@ -1,7 +1,7 @@
 //primary layout - diff fonts style and metadata
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, IBM_Plex_Serif } from "next/font/google";
-import "./globals.css";
+import "@/app/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 const inter = Inter({
   subsets: ["latin"],
-  variable:  '--font--inter'
+  variable:  '--font-inter'
 });
 
 const ibmPlexSerif = IBM_Plex_Serif({
@@ -38,8 +38,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    //the line belows allows us to use the specified fonts across the whole app 
+
     <html lang="en">
-      //the line belows allows us to use the specified fonts across the whole app 
       <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>{children}</body>
     </html>
   );

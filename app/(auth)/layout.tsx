@@ -1,4 +1,4 @@
-// special laout for pages without a sidebar
+// special layout for pages without a sidebar
 export default function RootLayout({
   children,
 }: Readonly<{
