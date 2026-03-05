@@ -1,15 +1,23 @@
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
+import { getLoggedInUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 //special layout that includes a sidebar - that will be used for main components such as home dashboard transactions 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-  const loggedIn = { firstName: "Dom", LastName: "Ko" }
+
+  const loggedIn = await getLoggedInUser();
+
+  // chk if user is signed in, if not send user to sign-in page
+  if (!loggedIn) { 
+    redirect('/sign-in');  //cannot use useRouter here since a use-server not use client
+  };
 
   return (
     <main className="flex h-screen w-full font-inter">
