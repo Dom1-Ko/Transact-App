@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 
-import { formatError, z } from "zod"
+import { email, formatError, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,7 @@ import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
+import PlaidLink from "./PlaidLink";
 
 // form are "use client" cuz of keyboard and mouse events
 // hence pgs that use the form are server side
@@ -39,7 +40,24 @@ import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter(); 
     
-    const [user, setUser] = useState(undefined) 
+    // const [user, setUser] = useState(null) 
+
+    const [user, setUser] = useState<User>({
+        $id: '',
+        email: '',
+        userId: '',
+        dwollaCustomerUrl: '',
+        dwollaCustomerId: '',
+        firstName: '',
+        lastName: '',
+        name: '',
+        address1: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        dateOfBirth: '',
+        ssn: ''
+    });
 
     const [isLoading, setisLoading] = useState(false)
 
@@ -47,7 +65,7 @@ const AuthForm = ({ type }: { type: string }) => {
     // because app tries to submit the sign-up form data when user tries to sign-in 
     const formSchema =  authFormSchema(type);
 
-    // Create a function to log errors, not compulsory, we did ithere for debugging purposes
+    // Create a function to log errors, not compulsory, we did it here for debugging purposes
     const onValidationError = (errors: any) => {
         console.log("Validation Errors:", errors);
     };
@@ -65,18 +83,17 @@ const AuthForm = ({ type }: { type: string }) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            // username: "",
             email: "",
             password: "",
-            // username: "",
-            // email: "",
-            // password: "",
-            // firstName: "", 
-            // lastName: "",
-            // address1: "",
-            // state: "",
-            // postalCode: "",
-            // dateOfBirth: "",
-            // ssn: "",
+            firstName: "", 
+            lastName: "",
+            address1: "",
+            state: "",
+            city: "",
+            postalCode: "",
+            dateOfBirth: "",
+            ssn: "",
         },
     })
 
@@ -88,15 +105,32 @@ const AuthForm = ({ type }: { type: string }) => {
     //     console.log(values)
     // }
 
+    //////  submit handle
     // USING THE AUTHFORMSCHEMA IN /LIB/UTILS
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         
         setisLoading(true);
 
-        try {
+        try {            
+
             //sign up with appwrite & create plaid token
             if (type === "sign-up"){
-                const newUser = await signUp(data);   // if nextjs complains about data, need to change the attributes to optional by adding '?' like in SignUpParams in index.d.ts (even though we know they are needed for the and zod validations protects us)
+
+                //letting typescript know attributes will surely have values using '!'
+                const userData = {
+                    firstName: data.firstName!,
+                    lastName: data.lastName!,
+                    address1: data.address1!,
+                    city: data.city!,
+                    state: data.state!,
+                    postalCode: data.postalCode!,
+                    dateOfBirth: data.dateOfBirth!,
+                    ssn: data.ssn!,
+                    email: data.email,
+                    password: data.password,
+                }
+
+                const newUser = await signUp(userData);   // if nextjs complains about data, need to change the attributes to optional by adding '?' like in SignUpParams in index.d.ts (even though we know they are needed for the and zod validations protects us)
 
                 setUser(newUser);
             }    
@@ -152,11 +186,11 @@ const AuthForm = ({ type }: { type: string }) => {
             </h1>
           </div>
         </header>
-        { user ? ( 
+        {/* { user ? (  */}
             <div className="flex flex-col gap-4">
-                {/* PLAIDLINK*/}
+                <PlaidLink user={user} variant="primary" />            
             </div>
-        ):(
+        {/* ):( */}
             <>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit, onValidationError)} className="space-y-8">
@@ -228,7 +262,7 @@ const AuthForm = ({ type }: { type: string }) => {
                    </Link>
                 </footer>
             </>
-        )}
+        {/* )} */}
     </section>
 
   )

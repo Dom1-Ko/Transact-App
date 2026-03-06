@@ -33,7 +33,7 @@ export async function createAdminClient() {
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
     .setKey(process.env.NEXT_APPWRITE_KEY!);
 
-    //since has access to key can do almost everything in this cas to this pproject
+    //since has access to key can do almost everything in this case to this project
 
   return {
     get account() {
