@@ -61,7 +61,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
     const [isLoading, setisLoading] = useState(false)
 
-    // had to genrate a zod scheme using tyoe in this case
+    // had to genrate a zod scheme using type in this case
     // because app tries to submit the sign-up form data when user tries to sign-in 
     const formSchema =  authFormSchema(type);
 
@@ -171,16 +171,16 @@ const AuthForm = ({ type }: { type: string }) => {
 
           <div className="flex fles-col gap-1 md:gap-3">
             <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
-                { user
-                    ? 'Link Account'
-                    : type === 'sign-in'
+                { user                    
+                    ? type === 'sign-in'
                         ? 'Sign-In'
                         : 'Sign-Up'
+                    : 'Link Account'
                 }
                 <p className="text-16 font-normal text-gray-600">
                     { user
-                        ? 'Link your account to get started'
-                        : 'Please enter your details'   
+                        ? 'Please enter your details' 
+                        : 'Link your account to get started'
                     }
                 </p>
             </h1>

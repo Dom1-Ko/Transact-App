@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { PlaidLinkOnSuccess, PlaidLinkOptions, usePlaidLink } from 'react-plaid-link'
 import { useRouter } from 'next/navigation'
@@ -55,7 +55,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
                     width={24}
                     height={24}
                 />
-                <p className='hiddenl text-[16px] font-semibold text-black-2 xl:block'>Connect bank</p>
+                <p className='hidden text-[16px] font-semibold text-black-2 xl:block'>Connect bank</p>
             </Button>
         ): ( 
             <Button onClick={() => open()} className="plaidlink-default">
