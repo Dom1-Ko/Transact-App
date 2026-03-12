@@ -31,11 +31,11 @@ const Home = async ( { searchParams }: SearchParamProps) => {       //in next we
 
     const appwriteItemId =  id || accountsData[0].appwriteItemId;
 
-    console.log("appwrtId: ", appwriteItemId )
+    // console.log("appwrtId: ", appwriteItemId )
 
     const account = await getAccount({ appwriteItemId });
     
-    console.log({accounts, account, appwriteItemId, id});
+    // console.log({accounts, account, appwriteItemId, id});
     
     return (
         <section className="home">

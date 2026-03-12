@@ -82,6 +82,7 @@ export const getTransactionsByBankId = async ({ bankId }: getTransactionsByBankI
       [Query.equal('receiverBankId', bankId)],
     );
 
+    // merge data together
     const transactions = {
       total: senderTransactions.total + receiverTransactions.total,
       documents: [

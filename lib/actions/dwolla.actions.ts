@@ -55,7 +55,7 @@ export const createDwollaCustomer = async (
   newCustomer: NewDwollaCustomerParams
 ) => {
   try {
-    console.log(newCustomer)
+    // console.log(newCustomer)
 
     return await dwollaClient
       .post("customers", newCustomer)
@@ -71,6 +71,8 @@ export const createTransfer = async ({
   amount,
 }: TransferParams) => {
   try {
+
+    // console.log({sourceFundingSourceUrl, destinationFundingSourceUrl, amount})
     const requestBody = {
       _links: {
         source: {

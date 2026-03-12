@@ -71,7 +71,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
 // Get one bank account
 export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
   try {
-    console.log('BBBBBBZZZZZZZZZZZZZZZ: ', appwriteItemId)
+    // console.log('BBBBBBZZZZZZZZZZZZZZZ: ', appwriteItemId)
     // get bank from db
     const bank = await getBank({ documentId: appwriteItemId });
     // get account info from plaid
@@ -87,6 +87,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
 
 // const tokenTest= await plaidClient.accountsGet({ access_token: bank.documents[0].accessToken, });
 // console.log(tokenTest)
+
     // get transfer transactions from appwrite
     const transferTransactionsData = await getTransactionsByBankId({
       bankId: bank.documents[0].$id

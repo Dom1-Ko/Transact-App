@@ -29,12 +29,18 @@ import { Textarea } from "./ui/textarea";
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   name: z.string().min(4, "Transfer note is too short"),
-  amount: z.string().min(4, "Amount is too short"),
+  amount: z.string().min(3, "Amount is too short"),
   senderBank: z.string().min(4, "Please select a valid bank account"),
   sharableId: z.string().min(8, "Please select a valid sharable Id"),
 });
 
+const onValidationError = (errors: any) => {
+  console.log("Validation Errors:", errors);
+  alert("Transaction error. Ensure have entered the data of valid Transact user.");
+};
+
 const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
+  // console.log("accccccccc ", {accounts});
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,34 +56,45 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
   });
 
   const submit = async (data: z.infer<typeof formSchema>) => {
+
     setIsLoading(true);
+    // console.log({data})
 
     try {
       const receiverAccountId = decryptId(data.sharableId);
+      // console.log({receiverAccountId});
+
       const receiverBank = await getBankByAccountId({
         accountId: receiverAccountId,
       });
+      // console.log({receiverBank})
+      // console.dir(receiverBank, { depth: null });
+
       const senderBank = await getBank({ documentId: data.senderBank });
 
       const transferParams = {
-        sourceFundingSourceUrl: senderBank.fundingSourceUrl,
-        destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
+        sourceFundingSourceUrl: senderBank.documents[0].fundingSourceUrl,
+        destinationFundingSourceUrl: receiverBank.documents[0].fundingSourceUrl,
         amount: data.amount,
       };
+      // console.log({transferParams})
+
       // create transfer
       const transfer = await createTransfer(transferParams);
+      // console.log({senderBank});
 
       // create transfer transaction
       if (transfer) {
         const transaction = {
           name: data.name,
           amount: data.amount,
-          senderId: senderBank.userId.$id,
-          senderBankId: senderBank.$id,
-          receiverId: receiverBank.userId.$id,
-          receiverBankId: receiverBank.$id,
+          senderId: senderBank.documents[0].userId,
+          senderBankId: senderBank.documents[0].$id,
+          receiverId: receiverBank.documents[0].userId,
+          receiverBankId: receiverBank.documents[0].$id,
           email: data.email,
         };
+        console.log(transaction);
 
         const newTransaction = await createTransaction(transaction);
 
@@ -95,11 +112,11 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submit)} className="flex flex-col">
+      <form onSubmit={form.handleSubmit(submit, onValidationError)} className="flex flex-col">
         <FormField
           control={form.control}
           name="senderBank"
-          render={() => (
+          render={({ field }) => (
             <FormItem className="border-t border-gray-200">
               <div className="payment-transfer_form-item pb-6 pt-5">
                 <div className="payment-transfer_form-content">
@@ -112,10 +129,11 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                 </div>
                 <div className="flex w-full flex-col">
                   <FormControl>
-                    <BankDropdown
+                    <BankDropdown 
                       accounts={accounts}
                       setValue={form.setValue}
                       otherStyles="!w-full"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage className="text-12 text-red-500" />
