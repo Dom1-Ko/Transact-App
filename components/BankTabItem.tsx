@@ -4,10 +4,14 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import { cn, formUrlQuery } from "@/lib/utils";
 
-export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => {   //accept account, and appwriteItemId
+export const BankTabItem = ({ account, appwriteItemId, shareableId }: BankTabItemProps) => {   //accept account, and appwriteItemId
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isActive = appwriteItemId === account?.appwriteItemId; // chk if it is active
+  // const isActive = appwriteItemId === account?.appwriteItemId; 
+  // chk if it is active
+  const isActive = appwriteItemId === account?.appwriteItemId;
+  const urlShareableId = isActive ? account.shareableId : shareableId;
+  console.log('sid',shareableId);
 
 
   // based on active state we will show the approriate div
@@ -16,8 +20,8 @@ export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => { 
     //modify url
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
-      key: "id",
-      value: account?.appwriteItemId,
+      key: "shareableId",
+      value: shareableId,
     });
     router.push(newUrl, { scroll: false });
     router.refresh();

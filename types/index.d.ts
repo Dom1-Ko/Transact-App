@@ -175,7 +175,7 @@ declare interface PaginationProps {
 
 declare interface PlaidLinkProps {
   user: User;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "mobileNav" | "home";
   dwollaCustomerId?: string;
 }
 
@@ -202,6 +202,7 @@ declare interface BankDropdownProps {
 declare interface BankTabItemProps {
   account: Account;
   appwriteItemId?: string;
+  shareableId: string;
 }
 
 declare interface TotlaBalanceBoxProps {
@@ -224,6 +225,7 @@ declare interface RightSidebarProps {
 
 declare interface SiderbarProps {
   user: User;
+  banks: Bank[Documents[]];
 }
 
 declare interface RecentTransactionsProps {

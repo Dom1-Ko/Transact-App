@@ -17,13 +17,14 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
 
   //chk if active
   const isActive = appwriteItemId === account?.appwriteItemId;
+  const shareableId = isActive ? account.shareableId : '';
 
   //modify url
   const handleBankChange = () => {
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
-      key: "id",
-      value: account?.appwriteItemId,
+      key: "shareableId",
+      value: shareableId,
     });
     router.push(newUrl, { scroll: false });
   };

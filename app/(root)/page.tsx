@@ -1,9 +1,12 @@
+// "use client"
 import HeaderBox from '@/components/HeaderBox';
+import PlaidLink from '@/components/PlaidLink';
 import RecentTransactions from '@/components/RecentTransactions';
 import RightSidebar from '@/components/RightSidebar';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getAccount, getAccounts } from '@/lib/actions/banks.actions';
-import { getLoggedInUser } from '@/lib/actions/user.actions';
+import { getBankByAccountId, getLoggedInUser } from '@/lib/actions/user.actions';
+import { decryptId } from '@/lib/utils';
 
 // const { database } = await createAdminClient();
 
@@ -18,7 +21,7 @@ import { getLoggedInUser } from '@/lib/actions/user.actions';
 const Home = async ( { searchParams }: SearchParamProps) => {       //in next we have access to searchParams, we can destructure id, page and give it a type
 
     // Await the searchParams promise first
-    const { id, page } = await searchParams;
+    const { shareableId, page } = await searchParams;
     const currentPage = Number (page as string) || 1;  // default valu     // searchParams id may sound like it is a number, but always convert, is usually a string
 
     const loggedIn = await getLoggedInUser();
@@ -29,7 +32,19 @@ const Home = async ( { searchParams }: SearchParamProps) => {       //in next we
 
     const accountsData = accounts?.data;
 
+    let id = "";
+
+    if(shareableId){
+        const accountId = decryptId(shareableId as string);
+        const bank = await getBankByAccountId({ accountId });
+        // console.log(bank)
+
+        id = bank.documents[0].$id;
+    }
+
     const appwriteItemId =  id || accountsData[0].appwriteItemId;
+
+    // const shareableId = accountsData[0].shareableId;
 
     // console.log("appwrtId: ", appwriteItemId )
 
@@ -56,6 +71,11 @@ const Home = async ( { searchParams }: SearchParamProps) => {       //in next we
                     />
 
                 </header>
+                
+                <div className='xl:hidden'>
+                    <PlaidLink user={loggedIn} variant="home"/>
+                </div>
+
                 <RecentTransactions accounts={accountsData} transactions={account?.transactions} appwriteItemId={appwriteItemId} page={currentPage} />
 
             </div>

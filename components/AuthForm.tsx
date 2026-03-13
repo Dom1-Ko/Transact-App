@@ -60,6 +60,8 @@ const AuthForm = ({ type }: { type: string }) => {
     });
 
     const [isLoading, setisLoading] = useState(false)
+    // const [submitSucessful, setsubmitSucessful] = useState(false);
+
 
     // had to genrate a zod scheme using type in this case
     // because app tries to submit the sign-up form data when user tries to sign-in 
@@ -132,7 +134,8 @@ const AuthForm = ({ type }: { type: string }) => {
 
                 const newUser = await signUp(userData);   // if nextjs complains about data, need to change the attributes to optional by adding '?' like in SignUpParams in index.d.ts (even though we know they are needed for the and zod validations protects us)
 
-                setUser(newUser);
+                setUser(newUser);      
+
             }    
 
             if (type === "sign-in") {
@@ -186,14 +189,15 @@ const AuthForm = ({ type }: { type: string }) => {
             </h1>
           </div>
         </header>
-        {/* { user ? (  */}
-            <div className="flex flex-col gap-4">
+        { user.$id !== "" ? ( 
+                <div className={`flex flex-col gap-4`}>
+
                 <PlaidLink user={user} variant="primary" />            
             </div>
-        {/* ):( */}
+        ):(
             <>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit, onValidationError)} className="space-y-8">
+                    <form onSubmit={form.handleSubmit(onSubmit, onValidationError)} className="space-y-8" >
                         
                         {type === "sign-up" && (
                             <>
@@ -262,7 +266,7 @@ const AuthForm = ({ type }: { type: string }) => {
                    </Link>
                 </footer>
             </>
-        {/* )} */}
+        )}
     </section>
 
   )

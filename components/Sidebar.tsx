@@ -8,7 +8,8 @@ import { usePathname } from "next/navigation";
 import Footer from "./Footer";
 import PlaidLink from "./PlaidLink";
 
-const Sidebar = ({ user }: SiderbarProps) => {
+const Sidebar = ({ user, banks }: SiderbarProps) => {
+    // console.log(banks)
     const pathname =  usePathname();     //nextjs hook used to grab current url
 
     return (
@@ -42,7 +43,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
                         // fill: make icon fill parent div
                         // brightness[3] invert 0: filters used to change icon color (meke it white and me it more shiny) if link active
                         // !text white: ! overries any deffault styles and force to become white when is active
-                        <Link href={item.route} key={item.label} className={cn('sidebar-link', { 'bg-bank-gradient':isActive})} >
+                        <Link href={`${item.route}?shareableId=${banks.documents[0].shareableId}`} key={item.label} className={cn('sidebar-link', { 'bg-bank-gradient':isActive})} >
                             <div className="relative size-6">
                                 <Image src={item.imgURL} alt={item.label} fill className={cn({'brightness-[3] invert-0':isActive})}/>
                             </div>

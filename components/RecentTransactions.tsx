@@ -21,7 +21,7 @@ const RecentTransactions = ({ accounts, transactions= [], appwriteItemId, page =
                 Recent Transactions
             </h2>
         
-            <Link href={`/transaction-history/?id=${appwriteItemId}`} className="view-all-btn" >
+            <Link href={`/transaction-history/?shareableId=${accounts[0].shareableId}`} className="view-all-btn" >
                 View All
             </Link>
         </header>
@@ -29,7 +29,7 @@ const RecentTransactions = ({ accounts, transactions= [], appwriteItemId, page =
             <TabsList className="recent-transactions-tablist">
                     {accounts.map((account: Account) => (
                         <TabsTrigger key={account.id} value={account.appwriteItemId}>
-                            <BankTabItem key={account.appwriteItemId} account={account} appwriteItemId={appwriteItemId}></BankTabItem>
+                            <BankTabItem key={account.appwriteItemId} account={account} appwriteItemId={appwriteItemId} shareableId={account.shareableId}></BankTabItem>
                         </TabsTrigger>
 
                     ))}

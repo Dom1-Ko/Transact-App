@@ -2,16 +2,26 @@ import HeaderBox from '@/components/HeaderBox'
 import { Pagination } from '@/components/pagination';
 import TransactionsTable from '@/components/TransactionsTable';
 import { getAccount, getAccounts } from '@/lib/actions/banks.actions';
-import { getLoggedInUser } from '@/lib/actions/user.actions';
-import { formatAmount } from '@/lib/utils';
+import { getBankByAccountId, getLoggedInUser } from '@/lib/actions/user.actions';
+import { decryptId, formatAmount } from '@/lib/utils';
 
   //searchParams gives access to parameters in url (/dashboard?a=1&b= searchParams.get('a') = 1  searchParams.get('b') = null)
 const TransactionHistory = async ({ searchParams }: SearchParamProps) => {
   // const currentPage = Number (page as string) || 1;  // default valu     // searchParams id may sound like it is a number, but always convert, is usually a string
 
-  const {id, page} = await searchParams;
+  const {shareableId, page} = await searchParams;
+  // console.log(shareableId)
+  let id = "";
+  if(shareableId){
+    const accountId = decryptId(shareableId as string);
+    const bank = await getBankByAccountId({ accountId });
+    // console.log(bank)
+
+    id = bank.documents[0].$id;
+  } 
+
   const currentPage = Number(page as string) || 1;
-  console.log(page)
+  // console.log('idddddd',id)
 
   const loggedIn = await getLoggedInUser();
 
@@ -20,7 +30,7 @@ const TransactionHistory = async ({ searchParams }: SearchParamProps) => {
   if (!accounts) return;
 
   const accountsData = accounts?.data;
-  const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
+  const appwriteItemId = (id as string);
 
   const account = await getAccount({ appwriteItemId });
 

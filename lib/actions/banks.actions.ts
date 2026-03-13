@@ -72,9 +72,9 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
 export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
   try {
     // console.log('BBBBBBZZZZZZZZZZZZZZZ: ', appwriteItemId)
-    // get bank from db
+    ////// get bank from db
     const bank = await getBank({ documentId: appwriteItemId });
-    // get account info from plaid
+    ///// get account info from plaid
     const accountsResponse = await plaidClient.accountsGet({
       access_token: bank.documents[0].accessToken,
     });
@@ -83,12 +83,13 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
 
     const accountData = accountsResponse.data.accounts[0];
   
+// console.log('resJJJJJJJJJJJJ: ',accountData)
 // console.log('resJJJJJJJJJJJJAccess: ',bank.documents[0].accessToken)
 
 // const tokenTest= await plaidClient.accountsGet({ access_token: bank.documents[0].accessToken, });
 // console.log(tokenTest)
 
-    // get transfer transactions from appwrite
+    ///// get transfer transactions from appwrite
     const transferTransactionsData = await getTransactionsByBankId({
       bankId: bank.documents[0].$id
       ,
@@ -96,7 +97,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     
 // console.log("ZZZZZZZZZZZ",transferTransactionsData, bank.documents[0].$id);  
 
-    //real transactions
+    /////real transactions
     const transferTransactions = transferTransactionsData.documents.map(
       (transferData: Transaction) => ({
         id: transferData.$id,
@@ -109,15 +110,17 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       })
     );
 
-    // get institution info from plaid
+    ///// get institution info from plaid
     const institution = await getInstitution({
       institutionId: accountsResponse.data.item.institution_id!,
     });
 
-    //fake transactions from dwolla
+    ////fake transactions from dwolla
     const transactions = await getTransactions({
       accessToken: bank.documents[0].accessToken,
     });
+
+    // console.log(transactions)
 // console.log({transferTransactions, transactions, accountData})
     const account = {
       id: accountData.account_id,
@@ -179,20 +182,22 @@ export const getTransactions = async ({
     });
 
       const data = response.data;
-// console.log("WWWWWWWWW ", data)
+// console.log("WWWWWWWWW ", data.added[0])
+// .added[0].personal_finance_category
 
       transactions = response.data.added.map((transaction) => ({
         id: transaction.transaction_id,
         name: transaction.name,
         paymentChannel: transaction.payment_channel,
-        type: transaction.payment_channel,
+        type: transaction.personal_finance_category?.detailed,
         accountId: transaction.account_id,
         amount: transaction.amount,
         pending: transaction.pending,
-        category: transaction.payment_channel ? transaction.payment_channel : "",
+        category: transaction.personal_finance_category?.primary,
         date: transaction.date,
         image: transaction.logo_url,
       }));
+      
 
       hasMore = data.has_more;
     }

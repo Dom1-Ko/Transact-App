@@ -1,9 +1,12 @@
+"use client"
 import { useCallback, useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { PlaidLinkOnSuccess, PlaidLinkOptions, usePlaidLink } from 'react-plaid-link'
 import { useRouter } from 'next/navigation'
 import { createLinkToken, exchangePublicToken } from '@/lib/actions/user.actions'
 import Image from 'next/image'
+import { Link } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
   const router = useRouter();
@@ -57,7 +60,31 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
                 />
                 <p className='hidden text-[16px] font-semibold text-black-2 xl:block'>Connect bank</p>
             </Button>
-        ): ( 
+        ): variant === 'mobileNav' ? ( 
+            <Link href={open()} className="sidebar-link">
+                <Image 
+                    src="/icons/connect-bank.svg"
+                    alt="connect bank"
+                    width={20}
+                    height={20}
+                    className={cn({'brightness-[3] invert-0':false })}
+                /> 
+                <p className={cn("text-16 font-semibold text-black-2", { "text-white": false })}> 
+                    Connect bank
+                </p>
+                <p className='sidebar-label'>Connect bank</p>               
+            </Link>
+        ): variant === 'home' ? ( 
+            <Button onClick={() => open()} className="sidebar-link">
+                <Image 
+                    src="/icons/connect-bank.svg"
+                    alt="connect bank"
+                    width={24}
+                    height={24}
+                />
+                <p className='text-16 font-semibold text-black-2'>Connect bank</p>
+            </Button>
+        ):( 
             <Button onClick={() => open()} className="sidebar-link">
                 <Image 
                     src="/icons/connect-bank.svg"

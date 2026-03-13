@@ -1,6 +1,6 @@
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
-import { getLoggedInUser } from "@/lib/actions/user.actions";
+import { getBanks, getLoggedInUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -14,6 +14,10 @@ export default async function RootLayout({
 
   const loggedIn = await getLoggedInUser();
 
+  const userId = loggedIn.$id
+  const banks = await getBanks({ userId });
+  // console.log('gbnk', banks)
+
   // chk if user is signed in, if not send user to sign-in page
   if (!loggedIn) { 
     redirect('/sign-in');  //cannot use useRouter here since a use-server not use client
@@ -21,7 +25,7 @@ export default async function RootLayout({
 
   return (
     <main className="flex h-screen w-full font-inter">
-        <Sidebar user={loggedIn} /> 
+        <Sidebar user={ loggedIn } banks={ banks } /> 
 
         <div className="flex size-full flex-col">
           <div className="root-layout">

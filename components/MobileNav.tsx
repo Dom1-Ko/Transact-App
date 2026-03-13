@@ -24,7 +24,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
   return (
     // we use square brackets for pixels to specify a specific value
     // we use shadcn sheet to extend dialog to complement main content. In this case clickin on button to open a new sidebar
-    <section className="w-full max-w-[264px]">
+    <section className="pl-4w-full max-w-[264px]">
       <Sheet>
         <SheetTrigger>
           <Image 
@@ -68,15 +68,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
 
                 })}
                 <SheetClose></SheetClose>
-                <SheetClose asChild>
-                  <div className="flex">
-                    <PlaidLink user={user} /> 
-                    <p className={cn("text-16 font-semibold text-black-2", { "text-white": false })}> 
-                      Connect bank
-                    </p>
-                  </div>
-                </SheetClose>
-
+                
                 {/* USER */}
               </nav>
             </SheetClose>
