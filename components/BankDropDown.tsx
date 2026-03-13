@@ -27,35 +27,40 @@ export const BankDropdown = ({
   const handleBankChange = (id: string) => {
     // console.log({id})
     const account = accounts.find((account) => account.appwriteItemId === id)!;
+    
     setSelected(account);
-    const newUrl = formUrlQuery({
-      params: searchParams.toString(),
-      key: "id",
-      value: id,
-    });
-    router.push(newUrl, { scroll: false });
+
+    // const newUrl = formUrlQuery({
+    //   params: searchParams.toString(),
+    //   key: "id",
+    //   value: id,
+    // });
+    // router.push(newUrl, { scroll: false });
 
     if (setValue) {
       setValue("senderBank", id);
     }
   };
+
 // console.log({selected});
+
   return (
     <Select
       defaultValue={selected.appwriteItemId}
+      // value= {selected.appwriteItemId}
       onValueChange={(value) => handleBankChange(value)}
     >
       <SelectTrigger
-        className={`flex w-full bg-white gap-3 md:w-[300px] ${otherStyles}`}
+        className={`flex !h-20 w-full bg-white gap-3 md:w-[300px] ${otherStyles}`}
       >
         <Image
           src="icons/credit-card.svg"
-          width={20}
-          height={20}
+          width={28}
+          height={28}
           alt="account"
         />
-        <SelectValue placeholder={selected?.name}>
-          <p className="line-clamp-1 w-full text-left">{selected.name}</p>
+        <SelectValue className="line-clamp-1 w-full text-left" placeholder={`${selected.name}`}>
+          {/* <p className="line-clamp-1 w-full text-left">{selected?.name}</p> */}
         </SelectValue>
 
       </SelectTrigger>
@@ -64,9 +69,9 @@ export const BankDropdown = ({
         align="end"
       >
         <SelectGroup>
-          <SelectLabel className="py-2 font-normal bg-white text-gray-500">
+          {/* <SelectLabel className="py-2 font-normal bg-white text-gray-500">
             Select a bank to display
-          </SelectLabel>
+          </SelectLabel> */}
           {accounts.map((account: Account) => {
             // console.log({account})
             return(
@@ -75,7 +80,7 @@ export const BankDropdown = ({
                 value={account.appwriteItemId}
                 className="cursor-pointer border-t"
               >
-                <div className="flex flex-col ">
+                <div className="flex flex-col">
                   <p className="text-16 font-medium">{account.name}</p>
                   <p className="text-14 font-medium text-blue-600">
                     {formatAmount(account.currentBalance)}

@@ -12,7 +12,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
     const pathname =  usePathname();     //nextjs hook used to grab current url
 
     return (
-        // LInk : standard <a href="...">, the entire browser tab refreshes. With <Link>, Next.js only swaps the content that changes while sidebar rem same
+        // Link : standard <a href="...">, the entire browser tab refreshes. With <Link>, Next.js only swaps the content that changes while sidebar rem same
         // since we are using sidebar as classname burger icon is hidden when max size. look at properties of sidebar in global.css
         <section className="sidebar">
             <nav className="flex flex-col gap-4">

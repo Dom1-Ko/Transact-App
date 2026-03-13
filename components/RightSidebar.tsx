@@ -1,9 +1,16 @@
+// "use client"
 import Image from "next/image"
 import Link from "next/link"
 import BankCard from "./BankCard"
-import { use } from "react"
+import { countTransactionCategories } from "@/lib/utils"
+// import Category from "./Category"
+// import { use } from "react"
+// import PlaidLink from "./PlaidLink"
 
 const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
+    
+    const categories: CategoryCount[] = countTransactionCategories(transactions);
+    
     return (
         //since we are using right-sidebar cn, this sidebar is hidden on small devices or minimised screens. look for its properties in globals.css
         //profile-banner gives it a background which is within our icons/assests folder 
@@ -53,7 +60,15 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                         }
                     </div>
                 )
-            }         
+            }       
+            <div className="mt-10 flex flex-1 flex-col gap-6">
+                <h2 className="header-2">Top categories</h2>
+                <div className="space-y-5">
+                    {/* {categories.map((category, index) => (
+                        <Category key={category.name} category={category}/>
+                    ))} */}
+                </div>
+            </div>
             </section>
 
 

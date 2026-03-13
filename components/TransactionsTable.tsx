@@ -12,7 +12,7 @@ import { cn, formatAmount, formatDateTime, getTransactionStatus, removeSpecialCh
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
     const {borderColor, backgroundColor, textColor, chipBackgroundColor} = transactionCategoryStyles[category as keyof typeof transactionCategoryStyles] || transactionCategoryStyles.default;  //we say as keyof and type of cuz of typescript, this way it knows that we are passing only listed categories
-    // console.log("AGGAAGGA ", category)
+    // console.log("AGGAAGGA ", category,  category.length)
     return (
         <div className={cn('category-badge', borderColor, chipBackgroundColor)}>
             <div className={cn('size-2 rounded-full', backgroundColor)} />
@@ -38,6 +38,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
         </TableHeader>
         <TableBody>
                 {transactions.map((t: Transaction) => {
+                    // console.log({transactions});
                     const status = getTransactionStatus(new Date(t.date));  // getrTransactionssStatus returns todays days and date of towo days ago since transactions takes 1-2 says to process in sandbox
                     const amount =  formatAmount(t.amount); 
 

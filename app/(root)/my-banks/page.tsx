@@ -1,5 +1,6 @@
 import BankCard from "@/components/BankCard";
 import HeaderBox from "@/components/HeaderBox"
+// import PlaidLink from "@/components/PlaidLink";
 import { getAccounts } from "@/lib/actions/banks.actions";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 
@@ -29,6 +30,8 @@ const MyBanks = async () => {
             ))}
         </div>
       </div>
+      {/* <PlaidLink user={loggedIn.$id} />  */}
+
     </section>
   )
 }

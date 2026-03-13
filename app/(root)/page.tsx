@@ -36,7 +36,8 @@ const Home = async ( { searchParams }: SearchParamProps) => {       //in next we
     const account = await getAccount({ appwriteItemId });
     
     // console.log({accounts, account, appwriteItemId, id});
-    
+    // console.log('acctr: ',account.transactions);
+
     return (
         <section className="home">
             <div className="home-content">
@@ -58,7 +59,7 @@ const Home = async ( { searchParams }: SearchParamProps) => {       //in next we
                 <RecentTransactions accounts={accountsData} transactions={account?.transactions} appwriteItemId={appwriteItemId} page={currentPage} />
 
             </div>
-            <RightSidebar user={loggedIn} transactions={accounts?.transactions} banks={accountsData?.slice(0,2)}/>
+            <RightSidebar user={loggedIn} transactions={account?.transactions} banks={accountsData?.slice(0,2)}/>
         </section>
     )
 }

@@ -16,6 +16,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Footer from "./Footer";
+import PlaidLink from "./PlaidLink";
 
 
 const MobileNav = ({ user }: MobileNavProps) => {
@@ -66,8 +67,17 @@ const MobileNav = ({ user }: MobileNavProps) => {
                   )
 
                 })}
+                <SheetClose></SheetClose>
+                <SheetClose asChild>
+                  <div className="flex">
+                    <PlaidLink user={user} /> 
+                    <p className={cn("text-16 font-semibold text-black-2", { "text-white": false })}> 
+                      Connect bank
+                    </p>
+                  </div>
+                </SheetClose>
 
-                USER
+                {/* USER */}
               </nav>
             </SheetClose>
 

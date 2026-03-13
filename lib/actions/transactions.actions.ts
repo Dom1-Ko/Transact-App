@@ -1,37 +1,3 @@
-// "use server";
-// import { ID, Query } from "node-appwrite";
-// import { createAdminClient } from "../appwrite";
-// import { Database } from "lucide-react";
-// import { parseStringify } from "../utils";
-
-
-// const {
-//   APPWRITE_DATABASE_ID: DATABASE_ID,
-//   APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
-// } = process.env;
-
-// export const createTransactions = async ({ transaction }: CreateTransactionProps) => {
-//   try {
-//     const { database } = await createAdminClient();
-
-//     const newTransaction = await database.createAdminClient(
-//       DATABASE_ID,
-//       TRANSACTION_COLLECTION_ID,
-//       ID.unique(),
-//       {
-//         channel: 'online',
-//         category: 'Transfer',
-//         ...transaction
-//       }
-
-//     );
-
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 "use server";
 
 import { ID, Query } from "node-appwrite";
@@ -81,6 +47,7 @@ export const getTransactionsByBankId = async ({ bankId }: getTransactionsByBankI
       TRANSACTION_COLLECTION_ID!,
       [Query.equal('receiverBankId', bankId)],
     );
+// console.log(senderTransactions)
 
     // merge data together
     const transactions = {
@@ -90,6 +57,8 @@ export const getTransactionsByBankId = async ({ bankId }: getTransactionsByBankI
         ...receiverTransactions.documents,
       ]
     }
+
+    // console.log('Transacts: ', transactions)
     return parseStringify(transactions);
   } catch (error) {
     console.log(error);

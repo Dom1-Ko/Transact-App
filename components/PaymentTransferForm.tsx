@@ -50,7 +50,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
       name: "",
       email: "",
       amount: "",
-      senderBank: "",
+      senderBank: accounts[0]?.appwriteItemId || "",
       sharableId: "",
     },
   });
@@ -58,7 +58,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
   const submit = async (data: z.infer<typeof formSchema>) => {
 
     setIsLoading(true);
-    // console.log({data})
+    // console.log('data',{data})
 
     try {
       const receiverAccountId = decryptId(data.sharableId);

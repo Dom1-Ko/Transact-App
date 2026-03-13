@@ -92,6 +92,12 @@ export const topCategoryStyles = {
 };
 
 export const transactionCategoryStyles = {
+  "in store" : {
+    borderColor: "border-violet-600",
+    backgroundColor: "bg-violet-500",
+    textColor: "text-violet-700",
+    chipBackgroundColor: "bg-inherit",
+  },
   "Food and Drink": {
     borderColor: "border-pink-600",
     backgroundColor: "bg-pink-500",
@@ -134,8 +140,14 @@ export const transactionCategoryStyles = {
     textColor: "text-blue-700",
     chipBackgroundColor: "bg-[#ECFDF3]",
   },
+  "online": { 
+    borderColor: "border-[#7B3F00]",
+    backgroundColor: "bg-amber-900", 
+    textColor: "text-amber-950", 
+    chipBackgroundColor: "", 
+  }, 
   default: {
-    borderColor: "",
+    borderColor: "border-[#0047AB]",
     backgroundColor: "bg-blue-500",
     textColor: "text-blue-700",
     chipBackgroundColor: "bg-inherit",

@@ -94,7 +94,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       ,
     });
     
-// console.log("ZZZZZZZZZZZ",transferTransactionsData);  
+// console.log("ZZZZZZZZZZZ",transferTransactionsData, bank.documents[0].$id);  
 
     //real transactions
     const transferTransactions = transferTransactionsData.documents.map(
@@ -105,7 +105,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
         date: transferData.$createdAt,
         paymentChannel: transferData.channel,
         category: transferData.category,
-        type: transferData.senderBankId === bank.$id ? "debit" : "credit",
+        type: transferData.senderBankId === bank.documents[0].$id ? "debit" : "credit",
       })
     );
 
@@ -118,7 +118,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     const transactions = await getTransactions({
       accessToken: bank.documents[0].accessToken,
     });
-
+// console.log({transferTransactions, transactions, accountData})
     const account = {
       id: accountData.account_id,
       availableBalance: accountData.balances.available!,
