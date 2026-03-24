@@ -1,6 +1,6 @@
 # Transact-App 💳
 
-A modern, full-featured financial transaction management application built with **Next.js 15**, **React 19**, and **TypeScript**. This platform seamlessly integrates **Plaid** for bank connectivity, **Dwolla** for ACH transfers, **Appwrite** for real-time database management, and **shadcn/ui** for a beautiful, accessible UI.
+A modern, full-featured financial transaction management application built with **Next.js 15**, **React 19**, and **TypeScript**. This platform seamlessly integrates **Plaid** for bank connectivity, **Dwolla** for ACH transfers, **Appwrite** for real-time database management, and **Tailwind v3** **shadcn/ui** for a beautiful, accessible UI.
 
 ## 🎯 What Makes This App Work
 
